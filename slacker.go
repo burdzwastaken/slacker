@@ -4,9 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
+
 	"github.com/nlopes/slack"
 	"github.com/shomali11/proper"
-	"strings"
 )
 
 const (
@@ -14,7 +15,7 @@ const (
 	dash                = "-"
 	newLine             = "\n"
 	invalidToken        = "Invalid token"
-	helpCommand         = "help"
+	helpCommand         = "get-commands"
 	directChannelMarker = "D"
 	userMentionFormat   = "<@%s>"
 	codeMessageFormat   = "`%s`"
@@ -32,7 +33,7 @@ func NewClient(token string) *Slacker {
 		rtm:    rtm,
 	}
 
-	slacker.Command(helpCommand, helpCommand, func(request *Request, response ResponseWriter) {
+	slacker.Command(helpCommand, "Displays this message. Usage: `@incident get-commands`", func(request *Request, response ResponseWriter) {
 		helpMessage := empty
 		for _, command := range slacker.botCommands {
 			tokens := command.Tokenize()
